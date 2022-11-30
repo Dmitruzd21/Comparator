@@ -14,7 +14,36 @@ public class Main {
         persons.add(new Person("Oleg", "Mega Noble Men And Super Star", 36));
 
         System.out.println(persons);
-        Collections.sort(persons, new NobilityComparator(5));
+
+        Comparator<Person> comparator1 = (o1, o2) -> {
+            String[] o1Array = o1.getSurname().split(" ");
+            String[] o2Array = o2.getSurname().split(" ");
+
+            if (o1Array.length > o2Array.length && isMeanToCompareUsingSurname(o1, o2)) {
+                return 1;
+            } else if (o1Array.length < o2Array.length && isMeanToCompareUsingSurname(o1, o2)) {
+                return -1;
+            } else {
+                return Integer.compare(o1.getAge(), o2.getAge());
+            }
+        };
+
+        Collections.sort(persons, comparator1::compare);
         System.out.println(persons);
+    }
+
+    public static boolean isMeanToCompareUsingSurname(Person o1, Person o2) {
+        int maxNumberOfWordsInSurname = 5;
+        String[] o1Array = o1.getSurname().split("\\P{IsAlphabetic}+");
+        String[] o2Array = o2.getSurname().split("\\P{IsAlphabetic}+");
+        if (o1Array.length < maxNumberOfWordsInSurname && o2Array.length > maxNumberOfWordsInSurname) {
+            return true;
+        } else if (o1Array.length > maxNumberOfWordsInSurname && o2Array.length < maxNumberOfWordsInSurname) {
+            return true;
+        } else if (o1Array.length < maxNumberOfWordsInSurname && o2Array.length < maxNumberOfWordsInSurname) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
