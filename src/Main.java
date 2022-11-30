@@ -16,8 +16,8 @@ public class Main {
         System.out.println(persons);
 
         Comparator<Person> comparator1 = (o1, o2) -> {
-            String[] o1Array = o1.getSurname().split(" ");
-            String[] o2Array = o2.getSurname().split(" ");
+            String[] o1Array = o1.getSurname().split("\\P{IsAlphabetic}+");
+            String[] o2Array = o2.getSurname().split("\\P{IsAlphabetic}+");
 
             if (o1Array.length > o2Array.length && isMeanToCompareUsingSurname(o1, o2)) {
                 return 1;
